@@ -45,32 +45,67 @@
 \maketitle
 
 \tableofcontents
+\newpage
 
 \section{Introduction} 
-% Define the subject of the report: 
-%    "Why was this study performed?"
-% Provide background information and relevant studies:
-%    "What knowledge already exists about this subject?"
-% Outline scientific purpose(s) and/or objective(s): 
-%    "What are the specific hypotheses for investigation?"
+The aim of this laboration was to write unit test code for an
+implementation of the data type `queue'. The unit tests shall 
+return feedback to the user, indicating `success' or `failure'. The
+interface of the datatype may not be changed. All operations given in
+\cite[p. 155]{janlert2000} shall be tested.
 
 \section{Material and Methods} 
-% List materials used, and how were they used. 
-% Provide enough detail for the reader to understand the experiment
+The datatype `queue' was said to be implemented according to the 
+specifications given in \cite[pp.155 -- 172]{janlert2000}. The
+implementation was in `C' according to standard `C99'. I chose to 
+implement the unit tests according to the axiomatic specification 
+given in \cite[pp.156 + 157]{janlert2000}. The toolchain was clang, 
+CMake 3.3.2, GDB 7.8, IDE was CLion 1.2.1. Valgrind was used to 
+find memory leaks. Development platform was OSX 10.10. 
 
-\section{Results} 
-% Concentrate on general trends and differences and not on trivial details.
-% Summarize the data from the experiments without discussing their implications
-% Organize data into tables, figures, graphs, etc. 
-% * Title all figures and tables; include a legend explaining symbols, abbreviations, or special methods
-% * Number figures and tables separately and refer to them in the text
+\section{Results}
+\subsection{General}
+The source code was stored in a file \texttt{queuetest.c} and submitted
+according instructions on the cambro web interface. The unit tests were
+all implemented as void functions taking no arguments. All function
+output goes to std out. Each functions outputs a short description of 
+the tested operation. Depending on success, `pass' or `fail' is writen
+out. In case of `fail', the function exits and returns the value
+\texttt{1}. All test functions are called from \texttt{main.c}. 
+\subsection{Tests}
+\begin{enumerate}
+  \item Axiome 1, use \texttt{Empty} to create an empty list and check
+    with \texttt{Isempty} if it is really emtpy. 
+    \item Axiome 2, apply \texttt{Enqueue} to an empty list and check
+      that \texttt{Isempty} returns \texttt{FALSE}.
+      \item Axiome 3, if a queue q is empty, it follows that 
+        consequtive \texttt{Enqueue}, \texttt{Dequeue} will result in
+        the same queue q. 
+        \item Axiome 4, if a queue q is not empty, it follows that
+          \texttt{Dequeue} and \texttt{Enqueue} follow commutative
+          properties, hence the resulting queue q will look the same
+          independent in which sequence \texttt{Dequeue} and 
+          \texttt{Enqueue} are applied.
+          \item Axiome 5, if a queue q is empty, sequential
+            application of \texttt{Enqueue(v, q)} and
+            \texttt{Front(q)} will return \texttt{v}.
+            \item Axiome 6, if a queue q is not empty,
+              \texttt{Enqueue} will not affect the next \texttt{Front}
+              operation. 
+\end{enumerate}
 
 \section{Discussion} 
-% Interpret the data; do not restate the results
-% Relate results to existing theory and knowledge
-% Explain the logic that allows you to accept or reject your original hypotheses
-% Include suggestions for improving your techniques or design, 
-% or clarify areas of doubt for further research
+\subsection{Dynamic memory handling in C}
+The given implementation of queues with 2-cell uses dynamic memory
+allocation in C. Memory handling functions are implemented. Therefore,
+when comparing the outcome of two independent queues, two sets of data
+have to be prepared. Operations such as \texttt{Dequeue} will
+deallocate dynamic memory hence the data will not be available for the
+other queue operation. This was the case for Axiome 4 and 6.
+
+\subsection{Application of unit tests to provided datatype}
+The implemented unit tests where applied to the provided datatype
+queue (implemented with a 2-cell). The unit tests were all passed.
 
 \addcontentsline{toc}{section}{\refname}
 \bibliography{references}
