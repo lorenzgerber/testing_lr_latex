@@ -66,31 +66,31 @@ find memory leaks. Development platform was OSX 10.10.
 \section{Results}
 \subsection{General}
 The source code was stored in a file \texttt{queuetest.c} and submitted
-according instructions on the cambro web interface. The unit tests were
-all implemented as void functions taking no arguments. All function
-output goes to std out. Each functions outputs a short description of 
-the tested operation. Depending on success, `pass' or `fail' is writen
+according instructions on the `cambro' web interface. The unit tests were
+all implemented as \texttt{void} functions taking no arguments. All function
+output went to \texttt{stdout}. Each function outputs a short description of 
+the tested operation. Depending on success, `pass' or `fail' is written
 out. In case of `fail', the function exits and returns the value
 \texttt{1}. All test functions are called from \texttt{main.c}. 
 \subsection{Tests}
 \begin{enumerate}
-  \item Axiome 1, use \texttt{Empty} to create an empty list and check
-    with \texttt{Isempty} if it is really emtpy. 
-    \item Axiome 2, apply \texttt{Enqueue} to an empty list and check
-      that \texttt{Isempty} returns \texttt{FALSE}.
-      \item Axiome 3, if a queue q is empty, it follows that 
-        consequtive \texttt{Enqueue}, \texttt{Dequeue} will result in
+  \item Axiom 1, use \texttt{empty} to create an empty list and check
+    with \texttt{isEmpty} if it is really emtpy. 
+    \item Axiom 2, apply \texttt{enqueue} to an empty list and check
+      that \texttt{isEmpty} returns \texttt{FALSE}.
+      \item Axiom 3, if a queue q is empty, it follows that 
+        consequtive \texttt{enqueue}, \texttt{dequeue} will result in
         the same queue q. 
-        \item Axiome 4, if a queue q is not empty, it follows that
-          \texttt{Dequeue} and \texttt{Enqueue} follow commutative
+        \item Axiom 4, if a queue q is not empty, it follows that
+          \texttt{dequeue} and \texttt{enqueue} follow commutative
           properties, hence the resulting queue q will look the same
-          independent in which sequence \texttt{Dequeue} and 
-          \texttt{Enqueue} are applied.
-          \item Axiome 5, if a queue q is empty, sequential
-            application of \texttt{Enqueue(v, q)} and
-            \texttt{Front(q)} will return \texttt{v}.
-            \item Axiome 6, if a queue q is not empty,
-              \texttt{Enqueue} will not affect the next \texttt{Front}
+          independent in which sequence \texttt{dequeue} and 
+          \texttt{enqueue} are applied.
+          \item Axiom 5, if a queue q is empty, sequential
+            application of \texttt{enqueue(v, q)} and
+            \texttt{front(q)} will return \texttt{v}.
+            \item Axiom 6, if a queue q is not empty,
+              \texttt{enqueue} will not affect the next \texttt{front}
               operation. 
 \end{enumerate}
 
@@ -99,13 +99,42 @@ out. In case of `fail', the function exits and returns the value
 The given implementation of queues with 2-cell uses dynamic memory
 allocation in C. Memory handling functions are implemented. Therefore,
 when comparing the outcome of two independent queues, two sets of data
-have to be prepared. Operations such as \texttt{Dequeue} will
+have to be prepared. Operations such as \texttt{dequeue} will
 deallocate dynamic memory hence the data will not be available for the
 other queue operation. This was the case for Axiome 4 and 6.
 
 \subsection{Application of unit tests to provided datatype}
 The implemented unit tests where applied to the provided datatype
-queue (implemented with a 2-cell). The unit tests were all passed.
+\texttt{queue} (implemented with a 2-cell list). Here, the unit tests 
+all passed.
+
+\subsection{Provoking unit test fails}
+Several modifications on the given datatype were tested to provoke
+unit test fails. Modifications were always tested on the whole chain
+of unit tests. Each modifcation stated below was tested separate. 
+
+\begin{enumerate}
+\item Axiom 1, \texttt{isEmpty)} was modified to always 
+return \texttt{FALSE}.
+\item Axiom 2, \texttt{isEmpty} was modified to always
+    return \texttt{TRUE}.
+\item Axiom 3, in \texttt{enqueue} the function call
+  to the list function was removed.
+\item Axiom 4, in \texttt{dequeue}, the function call
+  was modfied to show stack behaviour, entries were removed on the
+  previous to last list position.
+\item Axiom 5, in \texttt{front}, the function call
+  was removed and instead the address to a hardcoded \texttt{int} value
+  returned. This resulted in a compiler warning as a local stack
+  variable was passed on. It worked however to provoke a fail for axiom
+  5.
+\item Axiom 6, for both \texttt{enqueue} and \texttt{dequeue} the
+  position of action was changed: \texttt{enqueue} added at first list
+  position, while \texttt{dequeue} removed the previous to last.
+\end{enumerate} 
+
+\subsection{Memory leaks}
+Valgrind was used to detect and mend memory leaks, both in `pass' and `fail' cases.
 
 \addcontentsline{toc}{section}{\refname}
 \bibliography{references}
