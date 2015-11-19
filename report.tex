@@ -48,7 +48,7 @@
 \newpage
 
 \section{Introduction} 
-The aim of this laboration was to write unit test code for an
+The aim of this laboration is to write unit test code for an
 implementation of the data type `queue'. The unit tests shall 
 return feedback to the user, indicating `success' or `failure'. The
 interface of the datatype may not be changed. All operations given in
@@ -57,11 +57,11 @@ interface of the datatype may not be changed. All operations given in
 \section{Material and Methods} 
 The datatype `queue' was said to be implemented according to the 
 specifications given in \cite[pp.155 -- 172]{janlert2000}. The
-implementation was in `C' according to standard `C99'. I chose to 
-implement the unit tests according to the axiomatic specification 
-given in \cite[pp.156 + 157]{janlert2000}. The toolchain was clang, 
-CMake 3.3.2, GDB 7.8, IDE was CLion 1.2.1. Valgrind was used to 
-find memory leaks. Development platform was OSX 10.10. 
+`C' implementation is according to `C99' standard. I chose to 
+implement the unit tests according to the \textit{axiomatic specification} 
+given in \cite[pp.156 + 157]{janlert2000}. The toolchain was \textit{clang}, 
+\textit{CMake 3.3.2}, \textit{GDB 7.8}, IDE was \textit{CLion
+  1.2.1}. \textit{Valgrind} was used to find memory leaks. Development platform was \textit{OSX 10.10}. 
 
 \section{Results}
 \subsection{General}
@@ -104,8 +104,10 @@ out. In case of `fail', the function exits and returns the value
 
 \item Test 2: If this test passes, we know that \texttt{isEmpty}
   works, hence we know also that \texttt{enqueue} can add a value to
-  the queue. If it fails, either \texttt{isEmtpy} was hardcoded or
-  \texttt{enqueue} did not add a value to the queue.
+  the queue. Moreover we can be sure that \texttt{Empty} works
+  properly. If the test fails, either \texttt{isEmtpy} was hardcoded,
+  \texttt{Empty} did not create a valid, empty queue or
+  \texttt{enqueue} did not add a value to the empty queue.
 
 \item Test 3: If test 3 fails, there is something wrong with
   \texttt{dequeue}. If test 3 passes, we know that both
@@ -115,7 +117,7 @@ out. In case of `fail', the function exits and returns the value
 
 \item Test 4: If it fails, we know that either \texttt{enqueue} or
   \texttt{dequeue} act on the wrong end of the queue. However, if both
-  act on the wront end, the test will still pass.
+  act on the wrong end, the test will still pass.
 
 \item Test 5: when it fails, \texttt{front} can not read correctly a
   value from the queue. If it passes, we still don't know if it reads from the
@@ -136,7 +138,7 @@ trouble. Adding a test 8, could check the absolute correct acting ends
 of all operations. This was not implemented in the current unit tests.
  
 \subsection{Dynamic Memory Handling}
-The given implementation of queues with 2-cell uses dynamic memory
+The given implementation of queues with a `2-cell list'  uses dynamic memory
 allocation in C. Memory handling functions are implemented. Therefore,
 when comparing the outcome of two independent queues, two sets of data
 have to be prepared. Operations such as \texttt{dequeue} will
@@ -145,7 +147,7 @@ other queue operation. This was the case for Axiome 4 and 6.
 
 \subsection{Application of Unit Tests to Provided Datatype}
 The implemented unit tests where applied to the provided datatype
-\texttt{queue} (implemented with a 2-cell list). Here, the unit tests 
+\texttt{queue} (implemented with a `2-cell list'). Here, the unit tests 
 all passed.
 
 \subsection{Provoking Unit Test Fails}
